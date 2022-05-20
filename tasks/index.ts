@@ -1,6 +1,6 @@
 import "./addLiquidity";
 import "./balanceOf";
-// import "./_claim";
+import "./claim";
 import "./hasClaimedReward";
 import "./index";
 import "./lockInterval";
@@ -11,4 +11,4 @@ import "./signerAddresses";
 import "./stakeStartTimestampOf";
 import "./stakeTokenAddress";
 import "./stake";
-// import "./_unstake";
+import "./unstake";
