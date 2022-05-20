@@ -6,9 +6,9 @@ const main = async () => {
   const staking = await Staking.deploy(
     config.LIQUIDITY_TOKEN_ADDRESS,
     config.TOKEN0_ADDRESS,
-    20,
-    1,
-    1
+    config.REWARD_PERCENTAGE,
+    config.REWARD_INTERVAL,
+    config.LOCK_INTERVAL
   );
   await staking.deployed();
   console.log("Staking deployed to:", staking.address);
