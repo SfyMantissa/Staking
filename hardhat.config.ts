@@ -16,4 +16,7 @@ module.exports = {
       accounts: [process.env.PRIVATE_KEY1, process.env.PRIVATE_KEY2],
     }
   },
+  etherscan: {
+    apiKey: process.env.ETHERSCAN_KEY
+  }
 };
