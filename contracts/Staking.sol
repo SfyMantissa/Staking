@@ -39,9 +39,6 @@ contract Staking is Ownable {
 
   }
 
-  IUniswapV2Pair stakeToken = IUniswapV2Pair(stakeTokenAddress);
-  MyCoin rewardToken = MyCoin(rewardTokenAddress);
-
   function stake(uint256 _amount) 
     external
   {
@@ -50,7 +47,7 @@ contract Staking is Ownable {
       "ERROR: must unstake after claiming the reward to stake again."
     );
 
-    stakeToken.transferFrom(msg.sender, address(this), _amount);
+    IUniswapV2Pair(stakeTokenAddress).transferFrom(msg.sender, address(this), _amount);
     balanceOf[msg.sender] += _amount;
     stakeStartTimestampOf[msg.sender] = block.timestamp;
 
@@ -65,7 +62,7 @@ contract Staking is Ownable {
       "ERROR: must claim reward before unstaking."
     );
     
-    stakeToken.transfer(msg.sender, balanceOf[msg.sender]);
+    IUniswapV2Pair(stakeTokenAddress).transfer(msg.sender, balanceOf[msg.sender]);
     hasClaimedReward[msg.sender] = false;
 
     emit Unstaked(msg.sender, balanceOf[msg.sender]);
@@ -93,7 +90,7 @@ contract Staking is Ownable {
     );
 
     hasClaimedReward[msg.sender] = true;
-    rewardToken.mint(msg.sender, rewardTotal);
+    MyCoin(rewardTokenAddress).mint(msg.sender, rewardTotal);
 
     emit Claimed(msg.sender, rewardTotal);
   }
