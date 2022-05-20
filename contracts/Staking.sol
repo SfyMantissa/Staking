@@ -63,10 +63,11 @@ contract Staking is Ownable {
     );
     
     IUniswapV2Pair(stakeTokenAddress).transfer(msg.sender, balanceOf[msg.sender]);
+    uint256 amount = balanceOf[msg.sender];
     balanceOf[msg.sender] = 0;
     hasClaimedReward[msg.sender] = false;
 
-    emit Unstaked(msg.sender, balanceOf[msg.sender]);
+    emit Unstaked(msg.sender, amount);
   }
 
   function claim()
