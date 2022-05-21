@@ -13,6 +13,6 @@ task("stakeOf",
       + stakeOf[0] + ' liquidity tokens staked.\n'
       + stakeOf[1] + ' last stake start timestamp.\n'
       + stakeOf[2] + ' current stake end timestamp.\n'
-      + 'Claimed the reward is ' + stakeOf[3]
+      + 'Claimed the reward is ' + stakeOf[3] + '.'
     );
   });

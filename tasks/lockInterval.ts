@@ -9,5 +9,5 @@ task("lockInterval",
     const Staking = await ethers.getContractFactory("Staking");
     const staking = Staking.attach(config.RINKEBY_ADDRESS);
     const lockInterval = await staking.lockInterval();
-    console.log("Lock interval is " + lockInterval);
+    console.log("Lock interval is " + lockInterval + '.');
   });

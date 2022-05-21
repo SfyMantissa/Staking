@@ -9,5 +9,5 @@ task("rewardPercentage",
     const Staking = await ethers.getContractFactory("Staking");
     const staking = Staking.attach(config.RINKEBY_ADDRESS);
     const rewardPercentage = await staking.rewardPercentage();
-    console.log("Reward percentage is " + rewardPercentage);
+    console.log("Reward percentage is " + rewardPercentage + '.');
   });

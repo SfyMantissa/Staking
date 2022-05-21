@@ -8,5 +8,5 @@ task("rewardInterval",
     const Staking = await ethers.getContractFactory("Staking");
     const staking = Staking.attach(config.RINKEBY_ADDRESS);
     const rewardInterval = await staking.rewardInterval();
-    console.log("Reward interval is " + rewardInterval);
+    console.log("Reward interval is " + rewardInterval + '.');
   });

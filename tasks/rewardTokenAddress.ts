@@ -8,5 +8,5 @@ task("rewardTokenAddress",
     const Staking = await ethers.getContractFactory("Staking");
     const staking = Staking.attach(config.RINKEBY_ADDRESS);
     const rewardTokenAddress = await staking.rewardTokenAddress();
-    console.log("Reward token address is " + rewardTokenAddress);
+    console.log("Reward token address is " + rewardTokenAddress + '.');
   });

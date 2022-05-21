@@ -78,10 +78,10 @@ task("addLiquidity",
       + " tokens in " + symbol0
       + "/" + symbol1
       + " liquidity pool: " + pairReserves[0]
-      + "\n" + symbol1
+      + ".\n" + symbol1
       + " tokens in " + symbol0
       + "/" + symbol1
       + " liquidity pool: " + pairReserves[1]
-      + "\nPair address: " + pairAddress
+      + ".\nPair address: " + pairAddress + '.'
     );
   });
