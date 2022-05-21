@@ -11,14 +11,14 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 /// @author Sfy Mantissa
 contract Staking is Ownable {
 
-  /// @notice Get the staked token balance of the account.
-  mapping(address => uint256) public balanceOf;
+  struct Stake {
+    uint256 balance;
+    uint256 stakeStartTimestamp;
+    uint256 stakeEndTimestamp;
+    bool claimedReward;
+  }
 
-  /// @notice Get last stake timestamp of the account.
-  mapping(address => uint256) public stakeStartTimestampOf;
-
-  /// @notice Get whether the account already claimed the reward.
-  mapping(address => bool) public hasClaimedReward;
+  mapping(address => Stake) public stakeOf;
 
   /// @notice Get the stake token address.
   address public stakeTokenAddress;
@@ -69,8 +69,10 @@ contract Staking is Ownable {
   function stake(uint256 _amount) 
     external
   {
+    Stake storage _stake = stakeOf[msg.sender];
+
     require(
-      !hasClaimedReward[msg.sender],
+      !_stake.claimedReward,
       "ERROR: must unstake after claiming the reward to stake again."
     );
 
@@ -80,8 +82,8 @@ contract Staking is Ownable {
       _amount
     );
 
-    balanceOf[msg.sender] += _amount;
-    stakeStartTimestampOf[msg.sender] = block.timestamp;
+    _stake.balance += _amount;
+    _stake.stakeStartTimestamp = block.timestamp;
 
     emit Staked(msg.sender, _amount);
   }
@@ -90,20 +92,21 @@ contract Staking is Ownable {
   function unstake()
     external
   {
+    Stake storage _stake = stakeOf[msg.sender];
+    uint256 amount = _stake.balance;
+
     require(
-      hasClaimedReward[msg.sender],
+      _stake.claimedReward,
       "ERROR: must claim reward before unstaking."
     );
 
-    uint256 amount = balanceOf[msg.sender];
-    
     IUniswapV2Pair(stakeTokenAddress).transfer(
       msg.sender,
       amount
     );
 
-    balanceOf[msg.sender] = 0;
-    hasClaimedReward[msg.sender] = false;
+    _stake.balance = 0;
+    _stake.claimedReward = false;
 
     emit Unstaked(msg.sender, amount);
   }
@@ -112,25 +115,32 @@ contract Staking is Ownable {
   function claim()
     external
   {
+    Stake storage _stake = stakeOf[msg.sender];
+
+    // require(
+    //   _stake.balance > 0,
+    //   "ERROR: nothing is staked."
+    // );
+
     require(
-      block.timestamp >= stakeStartTimestampOf[msg.sender] + lockInterval,
+      block.timestamp >= _stake.stakeStartTimestamp + lockInterval,
       "ERROR: must wait for lock interval to pass."
     );
 
     require(
-      !hasClaimedReward[msg.sender],
+      !_stake.claimedReward,
       "ERROR: already claimed the reward."
     );
 
     uint256 rewardPerRewardInterval = 
-      balanceOf[msg.sender] * rewardPercentage / 100;
+      _stake.balance * rewardPercentage / 100;
 
     uint256 rewardTotal = 
       rewardPerRewardInterval * (
-        (block.timestamp - stakeStartTimestampOf[msg.sender]) / rewardInterval
+        (block.timestamp - _stake.stakeStartTimestamp) / rewardInterval
     );
 
-    hasClaimedReward[msg.sender] = true;
+    _stake.claimedReward = true;
     MyCoin(rewardTokenAddress).mint(msg.sender, rewardTotal);
 
     emit Claimed(msg.sender, rewardTotal);
