@@ -117,10 +117,10 @@ contract Staking is Ownable {
   {
     Stake storage _stake = stakeOf[msg.sender];
 
-    // require(
-    //   _stake.balance > 0,
-    //   "ERROR: nothing is staked."
-    // );
+    require(
+      _stake.balance > 0,
+      "ERROR: nothing is staked."
+    );
 
     require(
       block.timestamp >= _stake.stakeStartTimestamp + lockInterval,
