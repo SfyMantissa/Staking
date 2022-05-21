@@ -18,11 +18,14 @@ contract Staking is Ownable {
     bool claimedReward;
   }
   
-  // @notice Get user's stake data.
-  // @dev balance is current amount of tokens staked by user.
-  //      stakeStartTimestamp is the UNIX timestamp of last stake made by the user.
-  //      stakeEndTimestamp is the UNIX timestamp of the user calling claim().
-  //      claimedReward is the flag to tell whether the user already claimed the reward.
+  /// @notice Get user's stake data.
+  /// @dev balance is current amount of tokens staked by user.
+  ///      stakeStartTimestamp is the UNIX timestamp of last stake
+  ///      made by the user.
+  ///      stakeEndTimestamp is the UNIX timestamp of the user
+  ///      calling claim().
+  ///      claimedReward is the flag to tell whether the 
+  ///      user already claimed the reward.
   mapping(address => Stake) public stakeOf;
 
   /// @notice Get the stake token address.
