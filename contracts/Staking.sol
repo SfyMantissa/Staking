@@ -132,12 +132,14 @@ contract Staking is Ownable {
       "ERROR: already claimed the reward."
     );
 
+    _stake.stakeEndTimestamp = block.timestamp;
+
     uint256 rewardPerRewardInterval = 
       _stake.balance * rewardPercentage / 100;
 
     uint256 rewardTotal = 
       rewardPerRewardInterval * (
-        (block.timestamp - _stake.stakeStartTimestamp) / rewardInterval
+        (_stake.stakeEndTimestamp - _stake.stakeStartTimestamp) / rewardInterval
     );
 
     _stake.claimedReward = true;
