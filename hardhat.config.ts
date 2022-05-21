@@ -11,6 +11,12 @@ module.exports = {
   solidity: "0.8.4",
   defaultNetwork: "rinkeby",
   networks: {
+    hardhat: {
+      forking: {
+        url: process.env.ALCHEMY_KEY,
+        enabled: true,
+      }
+    },
     rinkeby: {
       url: process.env.ALCHEMY_KEY,
       accounts: [process.env.PRIVATE_KEY1, process.env.PRIVATE_KEY2],
