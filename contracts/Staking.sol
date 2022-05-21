@@ -154,26 +154,29 @@ contract Staking is Ownable {
   }
 
   /// @notice Allows the owner to change the rewardInterval.
-  function changeRewardInterval(uint256 _rewardInterval)
+  /// @param _value The new rewardInterval value.
+  function changeRewardInterval(uint256 _value)
     external
     onlyOwner
   {
-    rewardInterval = _rewardInterval;
+    rewardInterval = _value;
   }
 
   /// @notice Allows the owner to change the lockInterval.
-  function changeLockInterval(uint256 _lockInterval)
+  /// @param _value The new lockInterval value.
+  function changeLockInterval(uint256 _value)
     external
     onlyOwner
   {
-    lockInterval = _lockInterval;
+    lockInterval = _value;
   }
 
   /// @notice Allows the owner to change the rewardPercentage.
-  function changeRewardPercentage(uint256 _rewardPercentage)
+  /// @param _value The new rewardPercentage value.
+  function changeRewardPercentage(uint256 _value)
     external
     onlyOwner
   {
-    rewardPercentage = _rewardPercentage;
+    rewardPercentage = _value;
   }
 }
