@@ -142,18 +142,15 @@ contract Staking is Ownable {
 
     _stake.stakeEndTimestamp = block.timestamp;
 
-    uint256 rewardPerRewardInterval = 
-      _stake.balance * rewardPercentage / 100;
-
-    uint256 rewardTotal = 
-      rewardPerRewardInterval * (
-        (_stake.stakeEndTimestamp - _stake.stakeStartTimestamp) / rewardInterval
-    );
+    uint256 rewardPerInterval = _stake.balance * rewardPercentage / 100;
+    uint256 numOfIntervals = (_stake.stakeEndTimestamp 
+      - _stake.stakeStartTimestamp) / rewardInterval;
+    uint256 reward = rewardPerInterval * numOfIntervals;
 
     _stake.claimedReward = true;
-    MyCoin(rewardTokenAddress).mint(msg.sender, rewardTotal);
+    MyCoin(rewardTokenAddress).mint(msg.sender, reward);
 
-    emit Claimed(msg.sender, rewardTotal);
+    emit Claimed(msg.sender, reward);
   }
 
   /// @notice Allows the owner to change the rewardInterval.
